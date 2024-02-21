@@ -7,8 +7,6 @@ const path = require("path");
 const dotenv = require("dotenv");
 
 
-
-
 // Enable CORS for all routes
 app.use(cors());
 
@@ -30,7 +28,6 @@ app.get('/',(req,res)=>{
 })
 
 app.get('/api/news', async (req, res) => {
-    // const { country, category, apiKey, page, pageSize } = req.query;
     const { country, category, page, pageSize } = req.query;
     const apiKey = process.env.REACT_APP_NEWS_API;
     const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}&page=${page}&pageSize=${pageSize}`;

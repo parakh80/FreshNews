@@ -16,9 +16,7 @@ const News = (props) => {
   const location = useLocation();
 
   // Props destructuring
-  const { country, category, apikey, pageSize, mode, setProgress } = props;
-  // let url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apikey}&page=${page}&pageSize=${pageSize}`;
-  // let url = `/api/news?country=${country}&category=${category}&apiKey=${apikey}&page=${page}&pageSize=${pageSize}`;
+  const { country, category, pageSize, mode, setProgress } = props;
   let url = `/api/news?country=${country}&category=${category}&page=${page}&pageSize=${pageSize}`;
 
 
