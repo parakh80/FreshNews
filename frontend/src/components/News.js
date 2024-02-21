@@ -44,7 +44,7 @@ const News = (props) => {
         setError(parsedData.message);
       }
     } catch (error) {
-      setError(`An error occurred`);
+      setError(`An error occurred : ${error}`);
     }
     setLoading(false);
     setProgress(100);
@@ -75,7 +75,7 @@ const News = (props) => {
         setError(parsedData.message);
       }
     } catch (error) {
-      setError(`An error occurred`);
+      setError(`An error occurred : ${error}`);
     }
     setLoading(false);
   };
