@@ -9,7 +9,7 @@ import News from './components/News';
 
 const App = () => {
   const pageSize = 8;
-  const apikey = process.env.REACT_APP_NEWS_API;
+  // const apikey = process.env.REACT_APP_NEWS_API;
   const [mode, setMode] = useState('light');
   const [progress, setProgress] = useState(0)
 
@@ -42,31 +42,38 @@ const App = () => {
         />
         <Routes>
           <Route path='/' element={<News setProgress={set_Progress}
-            mode={mode} apikey={apikey}
+            // mode={mode} apikey={apikey}
+            mode={mode} 
             key="general" pageSize={pageSize}
             country="us" category="general" />} />
           <Route path='/business' element={<News setProgress={set_Progress}
-            mode={mode} apikey={apikey}
+            // mode={mode} apikey={apikey}
+            mode={mode} 
             key="business" pageSize={pageSize}
             country="us" category="business" />} />
           <Route path='/entertainment' element={<News setProgress={set_Progress}
-            mode={mode} apikey={apikey}
+            // mode={mode} apikey={apikey}
+            mode={mode} 
             key="entertainment" pageSize={pageSize}
             country="us" category="entertainment" />} />
           <Route path='/health' element={<News setProgress={set_Progress}
-            mode={mode} apikey={apikey}
+            // mode={mode} apikey={apikey}
+            mode={mode} 
             key="health" pageSize={pageSize}
             country="us" category="health" />} />
           <Route path='/science' element={<News setProgress={set_Progress}
-            mode={mode} apikey={apikey}
+            // mode={mode} apikey={apikey}
+            mode={mode} 
             key="science" pageSize={pageSize}
             country="us" category="science" />} />
           <Route path='/sports' element={<News setProgress={set_Progress}
-            mode={mode} apikey={apikey}
+            // mode={mode} apikey={apikey}
+            mode={mode} 
             key="sports" pageSize={pageSize}
             country="us" category="sports" />} />
           <Route path='/technology' element={<News setProgress={set_Progress}
-            mode={mode} apikey={apikey}
+            // mode={mode} apikey={apikey}
+            mode={mode} 
             pageSize={pageSize}
             country="us" category="technology" />} />
         </Routes>
