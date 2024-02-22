@@ -26,6 +26,8 @@ const News = (props) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
+  
+
   // Function to fetch news data
   const updateNews = async () => {
     setProgress(10);
@@ -41,10 +43,10 @@ const News = (props) => {
         setTotalAvailableArticles(parsedData.totalResults);
         setError(null);
       } else {
-        setError(parsedData.message);
+        setError(JSON.parse(parsedData.message));
       }
     } catch (error) {
-      setError(`An error occurred : ${error}`);
+      setError(`An error occurred : ${JSON.parse(error)}`);
     }
     setLoading(false);
     setProgress(100);
@@ -72,10 +74,10 @@ const News = (props) => {
         setTotalAvailableArticles(parsedData.totalResults);
         setError(null);
       } else {
-        setError(parsedData.message);
+        setError(JSON.parse(parsedData.message));
       }
     } catch (error) {
-      setError(`An error occurred : ${error}`);
+      setError(`An error occurred : ${JSON.parse(error)}`);
     }
     setLoading(false);
   };
