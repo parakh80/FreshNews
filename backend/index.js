@@ -36,14 +36,14 @@ app.get('/api/news', async (req, res) => {
     try {
       const response = await fetch(url);
       if (!response.ok) {
-        throw new Error('Failed to fetch data');
+        throw new Error(`Failed to fetch data: ${JSON.parse(response)}`);
       }
 
       const data = await response.json();
       res.json(data);
     } catch (error) {
       console.error('Error fetching news:', error);
-      res.status(500).json({ error });
+      res.status(500).json({ error:JSON.parse(error) });
     }
 });
 
