@@ -4,6 +4,9 @@ const CardSkeleton = (props) => {
   const { mode } = props
   return (
     <>
+    <div className='row'>
+                             {Array.from({ length: 12 }).map((_, index) => (
+                             <div className='col-md-4' key={index}>
       <div className={`my-3 max-w-sm bg-${mode === 'light'
         ? 'white' : 'gray-800'} border ${mode === 'light'
           ? 'border-gray-200' : 'border-gray-700'} rounded-lg shadow`}>
@@ -25,6 +28,9 @@ const CardSkeleton = (props) => {
           </div>
         </div>
       </div>
+      </div>
+                             ))}
+                             </div>
     </>
   );
 }

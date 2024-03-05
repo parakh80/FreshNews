@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import fetch from 'node-fetch'; // Import node-fetch
 
+
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,28 +25,45 @@ if (process.env.NODE_ENV === "PRODUCTION") {
   });
 }
 
+
 app.get('/', (req, res) => {
-    res.send('hello');
+    res.send('hello world!');
 });
 
-app.get('/api/news', async (req, res) => {
-    const { country, category, page, pageSize } = req.query;
+app.get('/api/news/index', async (req, res) => {
     const apiKey = process.env.NEWS_API;
-    const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}&page=${page}&pageSize=${pageSize}`;
-
+    const url = `https://newsapi.org/v2/top-headlines?${req._parsedUrl.query}&apiKey=${apiKey}`;
     try {
       const response = await fetch(url);
       if (!response.ok) {
-        throw new Error(`Failed to fetch data: ${JSON.parse(response)}`);
+        console.log(`Failed to fetch data: Status - ${response.status}, Status Text - ${response.statusText}, URL - ${response.url}`);
       }
-
       const data = await response.json();
-      res.json(data);
+        res.json(data);
     } catch (error) {
       console.error('Error fetching news:', error);
-      res.status(500).json({ error:JSON.parse(error) });
+      res.status(500).json({ error });
     }
 });
+
+
+app.get('/api/news/everything', async (req, res) => {
+  const apiKey = process.env.NEWS_API;
+  let url = `https://newsapi.org/v2/everything?${req._parsedUrl.query}&apiKey=${apiKey}`;
+  
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.log(`Failed to fetch data: Status - ${response.status}, Status Text - ${response.statusText}, URL - ${response.url}`);
+    }
+    const data = await response.json();
+        res.json(data);
+  } catch (error) {
+    console.error('Error fetching news:', error);
+    res.status(500).json({ error });
+  }
+});
+
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
@@ -67,3 +85,4 @@ process.on("uncaughtException", (err) => {
   console.log("Shutting down due to uncaught exception");
   process.exit(1);
 });
+

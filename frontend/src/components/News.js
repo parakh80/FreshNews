@@ -1,72 +1,130 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import NewsItem from './NewsItem';
 import PropTypes from 'prop-types';
 import Footer from './Footer';
 import CardSkeleton from './CardSkeleton';
 import ImageSlider from './imageSlider'; 
 import { useLocation } from 'react-router-dom';
+import NavBar from './NavBar';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+
 
 const News = (props) => {
   // State variables
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
+  const [indexUrlPage, setIndexUrlPage] = useState(1);
+  const [searchUrlPage, setSearchUrlPage] = useState(1);
   const [totalAvailableArticles, setTotalAvailableArticles] = useState(1);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchUrl, setSearchUrl] = useState('');
+
   const location = useLocation();
 
   // Props destructuring
-  const { country, category, pageSize, mode, setProgress } = props;
-  let url = `/api/news?country=${country}&category=${category}&page=${page}&pageSize=${pageSize}`;
-
-
-
-  // Function to capitalize the first letter of a string
-  const capitalizedFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
+  const { country,  pageSize, mode,  setProgress, toggleMode } = props;
+   let  { category } = useParams();
+   console.log(category)
+   category = category === undefined || category === 'undefined' ? 'general' : category;
+   let indexUrl = `/api/news/index?country=${country}&category=${category}&page=1&pageSize=${pageSize}`
+ 
   
+// Function to receive data from child component (NavBar)
+const handleSearchQueryChange = (query) => {
+  setSearchQuery(query);
+  let newSearchUrl = `/api/news/everything?q=${query}&page=1&pageSize=${pageSize}`;
+  updateNews(newSearchUrl);
+  setSearchUrl(newSearchUrl);
+};
+
+// Update browser URL with the search query
+if(searchQuery.trim()){
+  const queryParams = new URLSearchParams();
+  queryParams.set('q', searchQuery.trim());
+  window.history.pushState(null, '', `/?${queryParams.toString()}`);
+}else{
+  window.history.pushState(null, '', `/${category === 'general' ? '' : category}`);
+}
+
+
+ // Function to capitalize the first letter of each word in a string
+const capitalizedFirstLetter = (string) => {
+  return string.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+};
+
+
 
   // Function to fetch news data
-  const updateNews = async () => {
+  const updateNews = async (url) => {
     setProgress(10);
     setLoading(true);
     try {
       let data = await fetch(url);
-      console.log(data)
       setProgress(50);
       let parsedData = await data.json();
       setProgress(70);
-      if (parsedData.status === 'ok') {
+      
+      if (parsedData.status === 'ok' && parsedData.totalResults !== 0) {
         setArticles(parsedData.articles);
         setTotalAvailableArticles(parsedData.totalResults);
         setError(null);
       } else {
-        setError(JSON.parse(parsedData.message));
+        setError(parsedData.status === 'ok' ? 'No News Available for your query' : parsedData.message);
       }
+  
     } catch (error) {
-      setError(`An error occurred : ${JSON.parse(error)}`);
+      setError(`An error occurred : ${error}`);
     }
     setLoading(false);
     setProgress(100);
   };
 
+  
+
+
+
   // Effect hook to fetch news data on component mount
   useEffect(() => {
-    document.title = `${capitalizedFirstLetter(category)} - NewsMonkey`;
-    updateNews();
+    const pageTitle = searchQuery.trim() !== ''
+                       ? ` ${capitalizedFirstLetter(decodeURIComponent(searchQuery))} - FreshNews` 
+                       : `${capitalizedFirstLetter(category)} - NewsMonkey`;
+  document.title = pageTitle;
+  setArticles([])
+  setIndexUrlPage(1);
+  setSearchUrlPage(1);
+  searchQuery.trim() !== '' ? updateNews(searchUrl) : updateNews( indexUrl );
     // eslint-disable-next-line
-  }, []);
+  }, [searchQuery,category]);
 
   // Effect hook to scroll to top on component re-render
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (location.pathname === '/' || location.pathname === '/general' || location.pathname === '/business' || location.pathname === '/health' || location.pathname === '/entertainment' || location.pathname === '/sports' || location.pathname === '/science' || location.pathname === '/technology') {
+      setSearchQuery('');
+    }
   }, [location]);
 
-  // Function to fetch more data for infinite scrolling
+
+
+
+
+  
+
+
+
   const fetchMoreData = async () => {
     try {
+      let url;
+      if (searchQuery.trim() !== '') {
+        url = `/api/news/everything?q=${searchQuery}&page=${searchUrlPage + 1}&pageSize=${pageSize}`;
+        setSearchUrlPage(searchUrlPage + 1);
+      } else {
+        url = `/api/news/index?country=${country}&category=${category}&page=${indexUrlPage + 1}&pageSize=${pageSize}`;
+        setIndexUrlPage(indexUrlPage + 1);
+      }
       let data = await fetch(url);
       let parsedData = await data.json();
       if (parsedData.status === 'ok') {
@@ -74,44 +132,23 @@ const News = (props) => {
         setTotalAvailableArticles(parsedData.totalResults);
         setError(null);
       } else {
-        setError(JSON.parse(parsedData.message));
+        setError(parsedData.message);
       }
     } catch (error) {
-      setError(`An error occurred : ${JSON.parse(error)}`);
+      setError(`An error occurred : ${error}`);
     }
     setLoading(false);
   };
-
-  // Effect hook to fetch more data when page state changes
-  useEffect(() => {
-    fetchMoreData();
-  }, [page]);
-
-  // Function to handle infinite scrolling
-  const handleInfiniteScroll = () => {
-    if (loading || articles.length >= totalAvailableArticles) {
-      return;
-    }
-    if (window.innerHeight + document.documentElement.scrollTop + 1 >= document.documentElement.scrollHeight) {
-      setLoading(true);
-      setPage(prev => prev + 1);
-    }
-  };
-
-  // Effect hook to add event listener for infinite scrolling
-  useEffect(() => {
-    window.addEventListener('scroll', handleInfiniteScroll);
-    return () => window.removeEventListener('scroll', handleInfiniteScroll);
-  }, [articles]);
-
+ 
   return (
     <>
+    <NavBar mode={mode} toggleMode={toggleMode}  onSearchQueryChange={handleSearchQueryChange}/>
       {/* Display ImageSlider component only on homepage */}
       {location.pathname === '/' && <ImageSlider />}
       <div className='mt-12'>
         {/* Heading */}
         <h1 className={`text-center  ${location.pathname === '/' ? 'my-3' : 'mt-32 mb-10'} font-bold text-3xl text-${mode === 'light' ? 'dark' : 'light'}`}>
-          FreshNews - Top {capitalizedFirstLetter(category)} Heading
+          {searchQuery ? `FreshNews - Everything in news about ${capitalizedFirstLetter(decodeURIComponent(searchQuery))}` : `FreshNews - Top ${capitalizedFirstLetter(category)} Heading`}
         </h1>
         <div className="container">
           {/* Display error message if there's an error */}
@@ -119,9 +156,15 @@ const News = (props) => {
             <p className="text-center text-red-500">{error}</p>
           ) : (
             <>
-              <div className='row'>
-                {/* Map through articles and display NewsItem component */}
-                {articles.map((article, index) => (
+
+            <InfiniteScroll
+                    dataLength={articles.length}
+                    next={fetchMoreData}
+                    hasMore={articles.length < totalAvailableArticles}
+                    loader={<CardSkeleton mode={mode} />}
+                > 
+                <div className='row'>
+                    {articles.map((article, index) => (
                   <div className='col-md-4' key={index}>
                     <NewsItem
                       title={article.title ? article.title.slice(0, 48) : ""}
@@ -134,18 +177,15 @@ const News = (props) => {
                       mode={mode}
                     />
                   </div>
+                  
                 ))}
-              </div>
+                </div>
+                </InfiniteScroll>
               {/* Display loading skeleton if loading */}
               {loading && (
-                <div className='row'>
-                  {Array.from({ length: 6 }).map((_, index) => (
-                    <div className='col-md-4' key={index}>
-                      <CardSkeleton mode={mode} />
-                    </div>
-                  ))}
-                </div>
+                <CardSkeleton mode={mode} />   
               )}
+
               {/* Display Footer component if all articles are loaded */}
               {articles.length >= totalAvailableArticles && <Footer mode={mode} />}
             </>
@@ -159,7 +199,7 @@ const News = (props) => {
 // Default props
 News.defaultProps = {
   country: 'in',
-  pageSize: 8,
+  pageSize: 12,
   category: 'general'
 };
 

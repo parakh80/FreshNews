@@ -13,7 +13,7 @@ const Footer = (props) => {
                     <div className="sm:flex sm:items-center sm:justify-between">
                         <div className="flex items-center mb-2 sm:mb-0 space-x-3 rtl:space-x-reverse">
                             <img src={`${process.env.PUBLIC_URL}/freshnews.png`}
-                                className="h-32 " alt="FreshNews Logo" />
+                                className="h-32 rounded-md" alt="FreshNews Logo" />
                         </div>
                         <ul className={`flex flex-wrap items-center mb-2 text-sm font-medium  
                              sm:mb-0  text-${mode === 'light'
