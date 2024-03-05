@@ -30,6 +30,7 @@ const News = (props) => {
    console.log(category)
    category = category === undefined || category === 'undefined' ? 'general' : category;
    let indexUrl = `/api/news/index?country=${country}&category=${category}&page=1&pageSize=${pageSize}`
+   console.log(indexUrl)
  
   
 // Function to receive data from child component (NavBar)
