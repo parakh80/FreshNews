@@ -44,7 +44,9 @@ app.get('/api/news/index', async (req, res) => {
         res.json(data);
     } catch (error) {
       console.error('Error fetching news:', error);
-      res.status(500).json({ error });
+      // res.status(500).json({error: `Error fetching news: ${error}` });
+      res.json({error: `Error fetching news: ${error}` });
+
     }
 });
 
@@ -63,7 +65,7 @@ app.get('/api/news/everything', async (req, res) => {
         res.json(data);
   } catch (error) {
     console.error('Error fetching news:', error);
-    res.status(500).json({ error });
+    res.status(500).json({ error: `Error fetching news: ${error}` });
   }
 });
 
