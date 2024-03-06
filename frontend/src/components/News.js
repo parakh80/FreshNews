@@ -37,6 +37,7 @@ const News = (props) => {
 const handleSearchQueryChange = (query) => {
   setSearchQuery(query);
   let newSearchUrl = `/api/news/everything?q=${query}&page=1&pageSize=${pageSize}`;
+  console.log(newSearchUrl)
   updateNews(newSearchUrl);
   setSearchUrl(newSearchUrl);
 };
@@ -66,8 +67,8 @@ const capitalizedFirstLetter = (string) => {
       let data = await fetch(url);
       setProgress(50);
       let parsedData = await data.json();
+      console.log(parsedData)
       setProgress(70);
-      
       if (parsedData.status === 'ok' && parsedData.totalResults !== 0) {
         setArticles(parsedData.articles);
         setTotalAvailableArticles(parsedData.totalResults);
@@ -77,6 +78,7 @@ const capitalizedFirstLetter = (string) => {
       }
   
     } catch (error) {
+      console.log(error)
       setError(`An error occurred : ${error}`);
     }
     setLoading(false);
@@ -128,6 +130,7 @@ const capitalizedFirstLetter = (string) => {
       }
       let data = await fetch(url);
       let parsedData = await data.json();
+      console.log(parsedData)
       if (parsedData.status === 'ok') {
         setArticles(prevArticles => prevArticles.concat(parsedData.articles));
         setTotalAvailableArticles(parsedData.totalResults);
@@ -136,6 +139,7 @@ const capitalizedFirstLetter = (string) => {
         setError(parsedData.message);
       }
     } catch (error) {
+      console.log(error)
       setError(`An error occurred : ${error}`);
     }
     setLoading(false);
