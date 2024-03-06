@@ -18,7 +18,7 @@ const NavBar = (props) => {
 
     const handleSearch = (e) => {
     e.preventDefault(); // Prevent default form submission
-    if(searchQuery.trim() != ''){
+    if(searchQuery.trim() !== ''){
     let query = encodeURIComponent(searchQuery.trim());
       onSearchQueryChange(query);
     scrollToTop();

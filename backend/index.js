@@ -33,12 +33,14 @@ app.get('/', (req, res) => {
 app.get('/api/news/index', async (req, res) => {
     const apiKey = process.env.NEWS_API;
     const url = `https://newsapi.org/v2/top-headlines?${req._parsedUrl.query}&apiKey=${apiKey}`;
+    console.log(url)
     try {
       const response = await fetch(url);
       if (!response.ok) {
         console.log(`Failed to fetch data: Status - ${response.status}, Status Text - ${response.statusText}, URL - ${response.url}`);
       }
       const data = await response.json();
+      console.log(data)
         res.json(data);
     } catch (error) {
       console.error('Error fetching news:', error);
@@ -50,13 +52,14 @@ app.get('/api/news/index', async (req, res) => {
 app.get('/api/news/everything', async (req, res) => {
   const apiKey = process.env.NEWS_API;
   let url = `https://newsapi.org/v2/everything?${req._parsedUrl.query}&apiKey=${apiKey}`;
-  
+  console.log(url)
   try {
     const response = await fetch(url);
     if (!response.ok) {
       console.log(`Failed to fetch data: Status - ${response.status}, Status Text - ${response.statusText}, URL - ${response.url}`);
     }
     const data = await response.json();
+    console.log(data)
         res.json(data);
   } catch (error) {
     console.error('Error fetching news:', error);
