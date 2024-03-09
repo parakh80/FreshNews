@@ -17,7 +17,7 @@ const News = (props) => {
   const [loading, setLoading] = useState(true);
   const [indexUrlPage, setIndexUrlPage] = useState(1);
   const [searchUrlPage, setSearchUrlPage] = useState(1);
-  const [totalAvailableArticles, setTotalAvailableArticles] = useState(1);
+  const [totalAvailableArticles, setTotalAvailableArticles] = useState(0);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchUrl, setSearchUrl] = useState('');
@@ -60,6 +60,7 @@ const capitalizedFirstLetter = (string) => {
 
   // Function to fetch news data
   const updateNews = async (url) => {
+    setArticles([])
     setProgress(10);
     setLoading(true);
     try {
@@ -94,7 +95,9 @@ const capitalizedFirstLetter = (string) => {
                        ? ` ${capitalizedFirstLetter(decodeURIComponent(searchQuery))} - FreshNews` 
                        : `${capitalizedFirstLetter(category)} - NewsMonkey`;
   document.title = pageTitle;
+  setError(null)
   setArticles([])
+  setTotalAvailableArticles(1)
   setIndexUrlPage(1);
   setSearchUrlPage(1);
   searchQuery.trim() !== '' ? updateNews(searchUrl) : updateNews( indexUrl );
@@ -111,7 +114,9 @@ const capitalizedFirstLetter = (string) => {
 
 
 
-
+console.log(articles.length)
+console.log(totalAvailableArticles)
+console.log(articles)
 
   
 
@@ -164,7 +169,7 @@ const capitalizedFirstLetter = (string) => {
             <InfiniteScroll
                     dataLength={articles.length}
                     next={fetchMoreData}
-                    hasMore={articles.length < totalAvailableArticles}
+                    hasMore={articles.length !== totalAvailableArticles}
                     loader={<CardSkeleton mode={mode} />}
                 > 
                 <div className='row'>
@@ -191,7 +196,8 @@ const capitalizedFirstLetter = (string) => {
               )}
 
               {/* Display Footer component if all articles are loaded */}
-              {articles.length >= totalAvailableArticles && <Footer mode={mode} />}
+              
+              {totalAvailableArticles.length !== 0 && articles.length === totalAvailableArticles && <Footer mode={mode} />}
             </>
           )}
         </div>
