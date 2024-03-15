@@ -13,9 +13,7 @@ const __dirname = path.dirname(__filename);
 app.use(express.json());
 app.use(cors());
 
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  dotenv.config({ path: "backend/.env" });
-}
+
 
 if (process.env.NODE_ENV === "PRODUCTION") {
   app.use(express.static(path.join(__dirname, "../frontend/build")));
