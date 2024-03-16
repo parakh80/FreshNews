@@ -2,7 +2,9 @@
 FreshNews provides users with an intuitive interface to browse through news articles from different categories. With the ability to fetch data from the News API, users can stay informed about current events and explore topics of interest effortlessly.
 
 ### Demo Video
-[Watch Demo Video](video1664476956.mp4)
+[Watch Demo Video](
+https://github.com/parakh80/FreshNews/assets/77325291/5bc7774a-fc08-4764-bff9-d57951cd78c6
+)
 
 ## Getting Started
 To get started with FreshNews, follow these steps:
