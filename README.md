@@ -9,7 +9,7 @@ To get started with FreshNews, follow these steps:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/FreshNews.git
+   git clone https://github.com/parakh80/FreshNews.git
    ```
 
 2. **Set Up Environment Variables:**
@@ -18,6 +18,7 @@ To get started with FreshNews, follow these steps:
      ```
      NEWS_API_KEY=your_news_api_key
      MODE=DEVELOPMENT
+     PORT=
      ```
      Note: Replace `your_news_api_key` with your actual News API key obtained from newsapi.org.
 
