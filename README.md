@@ -1,1 +1,50 @@
-[![Project Demo Video](https://img.youtube.com/vi/jDMFqGJUMaE/0.jpg)](https://www.youtube.com/watch?v=jDMFqGJUMaE)
+## Overview
+FreshNews provides users with an intuitive interface to browse through news articles from different categories. With the ability to fetch data from the News API, users can stay informed about current events and explore topics of interest effortlessly.
+
+### Demo Video
+[Watch Demo Video](video1664476956.mp4)
+
+## Getting Started
+To get started with FreshNews, follow these steps:
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/your-username/FreshNews.git
+   ```
+
+2. **Set Up Environment Variables:**
+   - Navigate to the backend directory and create a `.env` file.
+   - Add the following environment variable to the `.env` file:
+     ```
+     NEWS_API_KEY=your_news_api_key
+     MODE=DEVELOPMENT
+     ```
+     Note: Replace `your_news_api_key` with your actual News API key obtained from newsapi.org.
+
+3. **Install Dependencies:**
+   - Navigate to the root directory of the project.
+   - Run the following command to install backend dependencies:
+     ```bash
+     npm install
+     ```
+   - Navigate to the frontend directory.
+   - Run the following command to install frontend dependencies:
+     ```bash
+     npm install
+     ```
+
+4. **Run the Application:**
+   - Navigate to the backend directory and run the following command to start the backend server:
+     ```bash
+     npm run dev
+     ```
+   - Navigate to the frontend directory and run the following command to start the frontend server:
+     ```bash
+     npm start
+     ```
+
+5. **Access FreshNews:**
+   - Open your web browser and go to [http://localhost:3000](http://localhost:3000) to access FreshNews.
+
+## Contributing
+Contributions are welcome! Please feel free to submit issues and pull requests.
