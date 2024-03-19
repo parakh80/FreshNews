@@ -1,27 +1,27 @@
 ## Overview
 FreshNews provides users with an intuitive interface to browse through news articles from different categories. With the ability to fetch data from the News API, users can stay informed about current events and explore topics of interest effortlessly.
 
-#### Navbar
-![Image 1](frontend/public/images/navbar.jpg)
+#### Navbar:
+![Image 1](frontend/public/images/navbar.png)
 
-#### NewsCart
-![Image 2](frontend/public/images/newscart.jpg)
+#### NewsCart:
+![Image 2](frontend/public/images/card.png)
 
-#### Night mode
-![Image 3](frontend/public/images/nightmode.jpg)
+#### Night mode:
+![Image 3](frontend/public/images/night_mode.png)
 
-#### Footer
-![Image 5](frontend/public/images/footer.jpg)
+#### Footer:
+![Image 5](frontend/public/images/footer.png)
 
-#### Loading functionality
+#### Loading functionality:
 
 ![loading](frontend/public/gifs/loading.gif)
 
-#### Navigation functionality
+#### Navigation functionality:
 
 ![index](frontend/public/gifs/index.gif)
 
-#### Search functionality
+#### Search functionality:
 
 ![search](frontend/public/gifs/search.gif)
 
